@@ -1,8 +1,9 @@
 package database
 
 import (
-	"fmt"
+	//"fmt"
 	"bytes"
+	"time"
 )
 
 
@@ -36,9 +37,11 @@ const (
 
 
 type Entry struct {
-	Type      EntryType
-	Key       string
-	Data      *bytes.Buffer
+	Type        EntryType
+	Key         string
+	Data        *bytes.Buffer
+	Next        *Entry         // entries may be chained together if there is a collision
+	UpdatedAt   time.Time
 }
 
 
@@ -55,8 +58,6 @@ func (d *Database) InitDatabase(size uint32) {
 	d.AddressSpace = make([]Entry, size)  // current size of 0, capacity of size
 	d.MaxSize = size
 
-	fmt.Println(d.AddressSpace)
-
 	return 
 }
 
@@ -65,7 +66,7 @@ func (d *Database) InitDatabase(size uint32) {
 // index = sum(ASCII values in key) modulo 599
 
 
-func Hash(key string) int {
+func (d *Database) Hash(key string) int {
 
 	s := 0
 
@@ -75,7 +76,7 @@ func Hash(key string) int {
 
 	}
 
-	return s % 599
+	return s % int(d.MaxSize)
 
 }
 
@@ -86,20 +87,56 @@ func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer)
 
 
 	// make a new entry
-	/*
+	// going to need to check if key is already in the database
+
+
+	present, presentEntry := d.GetEntry(key)
+
+	if present {
+		presentEntry.Type = entryType
+		presentEntry.Data = data
+		presentEntry.UpdatedAt = time.Now()
+		return nil
+	}
+	
 	entry := Entry {
 		Type: entryType,
 		Key: key,
 		Data: data,
+		UpdatedAt: time.Now(),
  	}
- 	*/
+ 	
 
- 	//fmt.Println(entry.Type)
+ 	index := d.Hash(key) 
 
- 	//i := 0
-
- 	//d.AddressSpace[i] = entry
+ 	d.AddressSpace[index] = entry
 
 
  	return nil
+}
+
+
+
+func (d *Database) GetEntry(key string) (bool, *Entry) {
+
+	// returns true, Entry or false Empty Entry
+
+	index := d.Hash(key) // this is the index that the entry will be at if it is there
+
+	e := d.AddressSpace[index] // entry containing potential list of entries
+
+
+
+	for e.Key != key && e.Next != nil {
+		e = *e.Next
+	}
+
+	if e.Key == "" {
+		// not in the database
+		emptyEntry := Entry{}
+		return false, &emptyEntry
+	}
+
+	return true, &e
+
 }
