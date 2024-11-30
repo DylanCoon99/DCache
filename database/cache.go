@@ -1,9 +1,10 @@
 package database
 
 import (
-	//"fmt"
+	"fmt"
 	"bytes"
 	"time"
+	//"fmt"
 )
 
 
@@ -92,10 +93,19 @@ func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer)
 
 	present, presentEntry := d.GetEntry(key)
 
+
 	if present {
+
+		if key == "key10" {
+			fmt.Println("fuck")
+			fmt.Println(presentEntry)
+		}
+
 		presentEntry.Type = entryType
 		presentEntry.Data = data
 		presentEntry.UpdatedAt = time.Now()
+
+
 		return nil
 	}
 	
@@ -109,7 +119,25 @@ func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer)
 
  	index := d.Hash(key) 
 
- 	d.AddressSpace[index] = entry
+
+ 	// need to check if a different entry already exists at this index
+
+
+ 	loc := &d.AddressSpace[index]
+
+ 	if loc.Key == "" {
+ 		// if this space is empty
+ 		d.AddressSpace[index] = entry
+
+ 		return nil
+ 	}
+
+
+ 	for loc.Next != nil {
+ 		loc = loc.Next
+ 	}
+
+ 	loc.Next = &entry
 
 
  	return nil
@@ -123,20 +151,21 @@ func (d *Database) GetEntry(key string) (bool, *Entry) {
 
 	index := d.Hash(key) // this is the index that the entry will be at if it is there
 
-	e := d.AddressSpace[index] // entry containing potential list of entries
+	e := &d.AddressSpace[index] // entry containing potential list of entries
 
 
 
 	for e.Key != key && e.Next != nil {
-		e = *e.Next
+		e = e.Next
 	}
 
-	if e.Key == "" {
+	if e.Key == "" || e.Key != key {
 		// not in the database
 		emptyEntry := Entry{}
 		return false, &emptyEntry
 	}
 
-	return true, &e
+
+	return true, e
 
 }

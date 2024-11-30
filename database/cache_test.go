@@ -31,8 +31,23 @@ func TestInitDatabase(t *testing.T) {
 /*
 func TestHash(t *testing.T) {
 
-	ret := Hash("This is a bunch of nonsense")
-	fmt.Printf("This is the result %d: ", ret)
+	var size uint32
+
+	size = 10
+
+	var d Database
+
+	d.InitDatabase(size)
+
+	ret := d.Hash("key1")
+	fmt.Printf("key1 %d: ", ret)
+
+	ret = d.Hash("key2")
+	fmt.Printf("key2 %d: ", ret)
+
+	ret = d.Hash("key3")
+	fmt.Printf("key3 %d: ", ret)
+
 }
 */
 
@@ -50,41 +65,31 @@ func TestAddEntry(t *testing.T) {
 
 	d.InitDatabase(size)
 
-	d1 := bytes.NewBuffer([]byte("This is test data"))
 
-	d.AddEntry(StringType, "key1", d1)
+	d9 := bytes.NewBuffer([]byte("This is test data for key9"))
 
-	d2 := bytes.NewBuffer([]byte("This is test data"))
-
-	d.AddEntry(StringType, "key2", d2)
-
-	d3 := bytes.NewBuffer([]byte("This is test data"))
-
-	d.AddEntry(StringType, "key3", d3)
-
-	d4 := bytes.NewBuffer([]byte("This is test data"))
-
-	d.AddEntry(StringType, "key4", d4)
-
-	d5 := bytes.NewBuffer([]byte("This is test data"))
-
-	d.AddEntry(StringType, "key5", d5)
-
-	d6 := bytes.NewBuffer([]byte("This is test data"))
-
-	d.AddEntry(StringType, "key6", d6)
-
-	for i := 0; i < len(d.AddressSpace); i ++ {
-		fmt.Println(d.AddressSpace[i])
-	}
+	d.AddEntry(StringType, "key9", d9)
 
 
+	d10 := bytes.NewBuffer([]byte("This is test data for key10"))
+
+	d.AddEntry(StringType, "key10", d10)
+
+	
+	
+	/*
 	d6 = bytes.NewBuffer([]byte("This is some updated data for key6"))
 	d.AddEntry(StringType, "key6", d6)
 	fmt.Println("///////////////")
+	*/
 
+	
 	for i := 0; i < len(d.AddressSpace); i ++ {
 		fmt.Println(d.AddressSpace[i])
 	}
+	
+	
 
 }
+
+
