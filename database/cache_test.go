@@ -76,19 +76,29 @@ func TestAddEntry(t *testing.T) {
 	d.AddEntry(StringType, "key10", d10)
 
 	
-	
 	/*
 	d6 = bytes.NewBuffer([]byte("This is some updated data for key6"))
 	d.AddEntry(StringType, "key6", d6)
 	fmt.Println("///////////////")
 	*/
 
-	
+	/*
 	for i := 0; i < len(d.AddressSpace); i ++ {
 		fmt.Println(d.AddressSpace[i])
 	}
-	
-	
+	*/
+
+
+	// test collision logic
+
+	_, entry9 := d.GetEntry("key9")
+	fmt.Println(entry9)
+
+	_, entry10 := d.GetEntry("key10")
+	fmt.Println(entry10)
+
+	_, entry10 = d.GetEntry("key10")
+	fmt.Println(*entry9.Next)
 
 }
 

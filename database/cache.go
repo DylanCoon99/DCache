@@ -1,7 +1,6 @@
 package database
 
 import (
-	"fmt"
 	"bytes"
 	"time"
 	//"fmt"
@@ -48,18 +47,28 @@ type Entry struct {
 
 
 type Database struct {
+	Name         string
 	AddressSpace []Entry
 	MaxSize      uint32
 }
 
 
+var D *Database
 
-func (d *Database) InitDatabase(size uint32) {
+
+func InitDatabase(name string, size uint32) *Database {
 	// size is num entries
+	d := Database{}
+
+
+
 	d.AddressSpace = make([]Entry, size)  // current size of 0, capacity of size
 	d.MaxSize = size
+	d.Name = name
 
-	return 
+	D = &d
+
+	return D
 }
 
 
@@ -67,7 +76,7 @@ func (d *Database) InitDatabase(size uint32) {
 // index = sum(ASCII values in key) modulo 599
 
 
-func (d *Database) Hash(key string) int {
+func Hash(key string) int {
 
 	s := 0
 
@@ -77,29 +86,24 @@ func (d *Database) Hash(key string) int {
 
 	}
 
-	return s % int(d.MaxSize)
+	return s % int(D.MaxSize)
 
 }
 
 
 
 // Add functionality to add Entries to the database
-func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer) error {
+func AddEntry(entryType EntryType, key string, data *bytes.Buffer) error {
 
 
 	// make a new entry
 	// going to need to check if key is already in the database
 
 
-	present, presentEntry := d.GetEntry(key)
+	present, presentEntry := GetEntry(key)
 
 
 	if present {
-
-		if key == "key10" {
-			fmt.Println("fuck")
-			fmt.Println(presentEntry)
-		}
 
 		presentEntry.Type = entryType
 		presentEntry.Data = data
@@ -117,17 +121,17 @@ func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer)
  	}
  	
 
- 	index := d.Hash(key) 
+ 	index := Hash(key) 
 
 
  	// need to check if a different entry already exists at this index
 
 
- 	loc := &d.AddressSpace[index]
+ 	loc := &D.AddressSpace[index]
 
  	if loc.Key == "" {
  		// if this space is empty
- 		d.AddressSpace[index] = entry
+ 		D.AddressSpace[index] = entry
 
  		return nil
  	}
@@ -145,13 +149,13 @@ func (d *Database) AddEntry(entryType EntryType, key string, data *bytes.Buffer)
 
 
 
-func (d *Database) GetEntry(key string) (bool, *Entry) {
+func GetEntry(key string) (bool, *Entry) {
 
 	// returns true, Entry or false Empty Entry
 
-	index := d.Hash(key) // this is the index that the entry will be at if it is there
+	index := Hash(key) // this is the index that the entry will be at if it is there
 
-	e := &d.AddressSpace[index] // entry containing potential list of entries
+	e := &D.AddressSpace[index] // entry containing potential list of entries
 
 
 

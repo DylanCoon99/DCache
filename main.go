@@ -21,7 +21,8 @@ func main() {
 	handler.R = repl.NewRepl(handler)
 
 
-	// I think I will add the instance of the database to the handler as a ptr 
+	
+
 
 	// I will create the instance of the database here and start it
 
@@ -32,7 +33,8 @@ func main() {
   	}
 
 
-  	////////
+
+  
 
 
 

@@ -5,6 +5,7 @@ import (
     //"fmt"
     "strings"
     repl "github.com/openengineer/go-repl"
+    //"github.com/DylanCoon99/DCache/database"
 )
 
 
@@ -12,6 +13,7 @@ import (
 type MyHandler struct {
     R *repl.Repl
 }
+
 
 func (h MyHandler) Prompt() string {
     return "> "
@@ -25,6 +27,8 @@ func (h MyHandler) Tab(buffer string) string {
 
 func (h MyHandler) Eval(line string) string {
     
+
+
     inputList := strings.Split(line, " ")
     numArgs := len(inputList)
     
@@ -36,11 +40,15 @@ Please Enter a Valid Command`
     cmd := inputList[0]
 
     switch cmd {
+    case "init":
+        // init <name>
+        msg := handleInit(inputList[1])
+        return msg
     case "echo":
         return strings.Join(inputList[1:], " ")
     case "set":
         // handle the set command
-        ret, err := handleSet("key", "value")
+        ret, err := handleSet(inputList[1], inputList[2])
         if err != nil {
             return err.Error()
         }
