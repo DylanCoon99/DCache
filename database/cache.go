@@ -18,7 +18,13 @@ import (
 
 
 
+12/2 to do
+ - figure out how to get data to persist (done)
 
+
+12/7 to do
+ - when initing a database -> read the log.txt file (done)
+ - fix the GetEntry functionality 
 
 */
 
@@ -173,3 +179,5 @@ func GetEntry(key string) (bool, *Entry) {
 	return true, e
 
 }
+
+

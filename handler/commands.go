@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github.com/DylanCoon99/DCache/database"
+	"github.com/DylanCoon99/DCache/logging"
 	"bytes"
 	"fmt"
 )
@@ -11,8 +12,13 @@ func handleInit(name string) (string) {
 	// returns a message
 	defaultSize := 10
 	d := database.InitDatabase(name, uint32(defaultSize))
-	fmt.Println("in the init function")
-	fmt.Printf("%p \n", d)
+	//fmt.Println("in the init function")
+	//fmt.Printf("%p \n", d)
+
+
+	logging.LoadLog(d)
+
+
 	return "Successfully initialized database"
 }
 
