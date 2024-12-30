@@ -61,19 +61,18 @@ func TestAddEntry(t *testing.T) {
 
 	size = 10
 
-	var d Database
 
-	d.InitDatabase(size)
+	InitDatabase("a", size)
 
 
 	d9 := bytes.NewBuffer([]byte("This is test data for key9"))
 
-	d.AddEntry(StringType, "key9", d9)
+	AddEntry(StringType, "key9", d9)
 
 
 	d10 := bytes.NewBuffer([]byte("This is test data for key10"))
 
-	d.AddEntry(StringType, "key10", d10)
+	AddEntry(StringType, "key10", d10)
 
 	
 	/*
@@ -91,15 +90,73 @@ func TestAddEntry(t *testing.T) {
 
 	// test collision logic
 
-	_, entry9 := d.GetEntry("key9")
+	_, entry9 := GetEntry("key9")
 	fmt.Println(entry9)
 
-	_, entry10 := d.GetEntry("key10")
+	_, entry10 := GetEntry("key10")
 	fmt.Println(entry10)
 
-	_, entry10 = d.GetEntry("key10")
-	fmt.Println(*entry9.Next)
+	//_, entry10 = GetEntry("key10")
+	//fmt.Println(*entry9.Next)
 
 }
 
 
+
+/*
+
+func TestUpdateLog(t *testing.T) {
+
+	var size uint32
+
+	size = 10
+	name := "database1"
+
+	var d *database.Database
+
+	d = database.InitDatabase(name, size)
+
+
+	d1 := bytes.NewBuffer([]byte("This is test data for key1"))
+
+	database.AddEntry(database.StringType, "key1", d1)
+
+
+	d2 := bytes.NewBuffer([]byte("This is test data for key2"))
+
+	database.AddEntry(database.StringType, "key2", d2)
+
+
+
+	UpdateLog(d)
+
+	LoadLog(d)
+
+}
+
+*/
+
+/*
+
+func TestPath(t *testing.T) {
+
+
+	var size uint32
+
+	size = 10
+
+
+	d := InitDatabase("a", size)
+
+	path, err := GetAbsPath(d)
+
+	if err != nil {
+		fmt.Println("failed to get path")
+		panic(err)
+	}
+
+	fmt.Println(path)
+
+}
+
+*/

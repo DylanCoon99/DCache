@@ -1,25 +1,43 @@
-package logging
+package database
 
-// logging package is responsible for writing/loading to/from log file
 
 
 import (
-	"github.com/DylanCoon99/DCache/database"
+	"path/filepath"
 	"encoding/json"
 	"bufio"
 	"log"
-	"fmt"
+	//"fmt"
 	"os"
 )
 
 
-func UpdateLog(d *database.Database) {
+var logPath string
+
+
+
+func GetAbsPath(d* Database) (string, error) {
+
+	logPath = "/mnt/c/Users/Dylan/My Documents/self_learning/DCache/database/" + d.Name + ".txt"
+
+	absPath, err := filepath.Abs(logPath)
+	if err != nil {
+		return "", err
+	}
+
+	return absPath, nil
+
+}
+
+
+
+func UpdateLog(d *Database) {
 
 	// over writes the log file with the current state of the database address space
 
 	// locate the log file first
 
-	file, err := os.Create("log.txt")
+	file, err := os.Create(d.Name + ".txt")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -41,7 +59,7 @@ func UpdateLog(d *database.Database) {
 
 
 
-func LoadLog(d *database.Database) {
+func LoadLog(d *Database) {
 
 	// loads a log file to the address space
 
@@ -53,14 +71,23 @@ func LoadLog(d *database.Database) {
 	}
 	defer file.Close()
 
+	var entry Entry
+
+
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
+		// parse the line into an entry struct
+		err := json.Unmarshal([]byte(scanner.Text()), &entry)
+
+		// write this entry to the database address space
+		
 	}
 
 	if err = scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
+
+
 
 
 }

@@ -24,7 +24,9 @@ import (
 
 12/7 to do
  - when initing a database -> read the log.txt file (done)
- - fix the GetEntry functionality 
+ - fix the GetEntry functionality (done)
+ - implement different types
+ 	- think about how to parse types
 
 */
 
@@ -43,11 +45,11 @@ const (
 
 
 type Entry struct {
-	Type        EntryType
-	Key         string
-	Data        *bytes.Buffer
-	Next        *Entry         // entries may be chained together if there is a collision
-	UpdatedAt   time.Time
+	Type        EntryType     `json:"type"`
+	Key         string        `json:"key"`
+	Data        *bytes.Buffer `json:"data"`
+	Next        *Entry        `json:"next"`       // entries may be chained together if there is a collision
+	UpdatedAt   time.Time     `json:"updated_at"`
 }
 
 
@@ -104,6 +106,8 @@ func AddEntry(entryType EntryType, key string, data *bytes.Buffer) error {
 
 	// make a new entry
 	// going to need to check if key is already in the database
+
+	defer UpdateLog(D)
 
 
 	present, presentEntry := GetEntry(key)

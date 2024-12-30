@@ -2,7 +2,6 @@ package handler
 
 import (
 	"github.com/DylanCoon99/DCache/database"
-	"github.com/DylanCoon99/DCache/logging"
 	"bytes"
 	"fmt"
 )
@@ -16,7 +15,7 @@ func handleInit(name string) (string) {
 	//fmt.Printf("%p \n", d)
 
 
-	logging.LoadLog(d)
+	database.LoadLog(d)
 
 
 	return "Successfully initialized database"
@@ -51,13 +50,16 @@ func handleSet(key, value string) (string, error) {
 func handleGet(key string) (string, error) {
 
 	// gets the value in memory for the given key and returns a message (string)
+	fmt.Println(key)
 
 	present, entry := database.GetEntry(key)
+
+	
 
 	if !present {
 		return "Data " + key + " does not exist", nil 
 	}
-
+	
 
 
 	return entry.Data.String() , nil

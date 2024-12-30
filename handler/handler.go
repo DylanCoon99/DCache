@@ -55,7 +55,8 @@ Please Enter a Valid Command`
         return ret
     case "get":
         // handle the get command
-        ret, err := handleGet("key")
+        key := inputList[1]
+        ret, err := handleGet(key)
         if err != nil {
             return err.Error()
         }
