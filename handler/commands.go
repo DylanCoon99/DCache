@@ -39,8 +39,8 @@ func handleSet(key, value string) (string, error) {
 	}
 
 
-	fmt.Println(database.D)
-	fmt.Printf("%p \n", database.D)
+	//fmt.Println(database.D)
+	//fmt.Printf("%p \n", database.D)
 	
 
 	return "Set Successful", nil
@@ -54,13 +54,14 @@ func handleGet(key string) (string, error) {
 
 	present, entry := database.GetEntry(key)
 
-	
+	//fmt.Println(database.D)
 
 	if !present {
 		return "Data " + key + " does not exist", nil 
 	}
 	
 
+	
 
 	return entry.Data.String() , nil
 

@@ -4,11 +4,13 @@ package database
 
 import (
 	"path/filepath"
-	"encoding/json"
-	"bufio"
+	//"encoding/binary"
+	//"encoding/json"
+	//"bufio"
 	"log"
 	//"fmt"
 	"os"
+	//"bytes"
 )
 
 
@@ -31,30 +33,25 @@ func GetAbsPath(d* Database) (string, error) {
 
 
 
-func UpdateLog(d *Database) {
+func UpdateLog(d *Database, cmd string) {
 
 	// over writes the log file with the current state of the database address space
 
 	// locate the log file first
 
-	file, err := os.Create(d.Name + ".txt")
+	file, err := os.OpenFile(d.Name + ".txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer file.Close()
 
-	// iterate over the address space
-	addressSpace := d.AddressSpace
 
-	for i := 0; i < len(addressSpace); i ++ {
-		data, _ := json.Marshal(addressSpace[i])
-		_, err = file.WriteString(string(data) + "\n")
-		if err != nil {
-			log.Fatal(err)
-		}
+	// whenever a cmd is sent, it is logged in the file 
 
-	}
+	file.WriteString(cmd + "\n")
 
+
+	return
 }
 
 
@@ -71,23 +68,8 @@ func LoadLog(d *Database) {
 	}
 	defer file.Close()
 
-	var entry Entry
 
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		// parse the line into an entry struct
-		err := json.Unmarshal([]byte(scanner.Text()), &entry)
-
-		// write this entry to the database address space
-		
-	}
-
-	if err = scanner.Err(); err != nil {
-		log.Fatal(err)
-	}
-
-
+	return
 
 
 }

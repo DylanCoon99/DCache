@@ -1,10 +1,9 @@
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"key9","Data":{},"Next":{"Type":0,"Key":"key10","Data":{},"Next":null,"UpdatedAt":"2024-12-08T21:47:12.937231275-05:00"},"UpdatedAt":"2024-12-08T21:47:05.134525311-05:00"}
-{"Type":0,"Key":"","Data":null,"Next":null,"UpdatedAt":"0001-01-01T00:00:00Z"}
-{"Type":0,"Key":"key1","Data":{},"Next":null,"UpdatedAt":"2024-12-08T21:46:25.369477937-05:00"}
-{"Type":0,"Key":"key2","Data":{},"Next":null,"UpdatedAt":"2024-12-08T21:46:51.540519609-05:00"}
+set key2 value2
+set key1 value1
+set key2 value2
+set key1 value1
+set key2 value2
+get key1
+get key2
+get key4
+set key4 value4

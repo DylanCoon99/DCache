@@ -107,7 +107,6 @@ func AddEntry(entryType EntryType, key string, data *bytes.Buffer) error {
 	// make a new entry
 	// going to need to check if key is already in the database
 
-	defer UpdateLog(D)
 
 
 	present, presentEntry := GetEntry(key)
