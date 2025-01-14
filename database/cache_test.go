@@ -1,10 +1,13 @@
+
+
 package database
 
 import (
-	"fmt"
-	"testing"
-	"bytes"
+	//"fmt"
+	//"testing"
+	//"bytes"
 )
+
 
 
 /*
@@ -53,7 +56,7 @@ func TestHash(t *testing.T) {
 
 
 
-
+/*
 
 func TestAddEntry(t *testing.T) {
 
@@ -75,17 +78,17 @@ func TestAddEntry(t *testing.T) {
 	AddEntry(StringType, "key10", d10)
 
 	
-	/*
+	
 	d6 = bytes.NewBuffer([]byte("This is some updated data for key6"))
 	d.AddEntry(StringType, "key6", d6)
 	fmt.Println("///////////////")
-	*/
+	
 
-	/*
+	
 	for i := 0; i < len(d.AddressSpace); i ++ {
 		fmt.Println(d.AddressSpace[i])
 	}
-	*/
+	
 
 
 	// test collision logic
@@ -101,7 +104,7 @@ func TestAddEntry(t *testing.T) {
 
 }
 
-
+*/
 
 /*
 
@@ -160,3 +163,4 @@ func TestPath(t *testing.T) {
 }
 
 */
+

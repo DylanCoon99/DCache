@@ -6,7 +6,8 @@ import (
 	"path/filepath"
 	//"encoding/binary"
 	//"encoding/json"
-	//"bufio"
+	"strings"
+	"bufio"
 	"log"
 	//"fmt"
 	"os"
@@ -28,6 +29,88 @@ func GetAbsPath(d* Database) (string, error) {
 	}
 
 	return absPath, nil
+
+}
+
+
+
+func Compact(fileName string) {
+
+	// file is a file name
+
+
+	// open the file, remove the get cmds, keep track of latest set cmd for every key, compact
+
+	// map[KeyType]ValueType --> map[string]string
+
+	//    maps key to the latest set cmd for that key
+
+	// iterate over the cmds in the file,
+	//		- if the cmd is a get cmd --> ignore
+	//		- if the cmd is a set cmd
+	//			- if the cmd is already in the map --> update
+	// 			- if the cmd is not in the map --> put it in the map 
+
+	var m map[string]string
+	m = make(map[string]string)
+
+	//file, err := os.OpenFile(fileName, os.O_APPEND | os.O_CREATE | os.O_WRONLY, 0644)
+	file, err := os.Open(fileName)
+
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer file.Close()
+
+
+	scanner := bufio.NewScanner(file)
+
+	// iterate over the file
+	for scanner.Scan() {
+		//fmt.Println(scanner.Text())
+		cmd := scanner.Text()
+
+		// parse the cmd into a list
+		cmdList := strings.Split(cmd, " ")
+
+		if cmdList[0] == "get" || cmdList[0] == "init" {
+			// ignore
+			continue
+		}
+
+		if cmdList[0] == "set" {
+
+			key := cmdList[1]
+
+			m[key] = cmd
+
+		}
+
+
+	}
+
+
+
+	if err = scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+
+	file, err = os.Create(fileName)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+
+	for _, value := range m {
+		file.WriteString(value + "\n")
+	}
+
+
+	// overwrite the file with the contents of the new data
 
 }
 
