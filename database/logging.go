@@ -1,7 +1,6 @@
 package database
 
 
-
 import (
 	"path/filepath"
 	//"encoding/binary"
@@ -38,19 +37,6 @@ func Compact(fileName string) {
 
 	// file is a file name
 
-
-	// open the file, remove the get cmds, keep track of latest set cmd for every key, compact
-
-	// map[KeyType]ValueType --> map[string]string
-
-	//    maps key to the latest set cmd for that key
-
-	// iterate over the cmds in the file,
-	//		- if the cmd is a get cmd --> ignore
-	//		- if the cmd is a set cmd
-	//			- if the cmd is already in the map --> update
-	// 			- if the cmd is not in the map --> put it in the map 
-
 	var m map[string]string
 	m = make(map[string]string)
 
@@ -75,7 +61,7 @@ func Compact(fileName string) {
 		// parse the cmd into a list
 		cmdList := strings.Split(cmd, " ")
 
-		if cmdList[0] == "get" || cmdList[0] == "init" {
+		if cmdList[0] == "get" || cmdList[0] == "init" || cmdList[0] == "echo"{
 			// ignore
 			continue
 		}
@@ -92,7 +78,6 @@ func Compact(fileName string) {
 	}
 
 
-
 	if err = scanner.Err(); err != nil {
 		log.Fatal(err)
 	}
@@ -105,12 +90,11 @@ func Compact(fileName string) {
 	}
 
 
+	// overwrite the file with the contents of the new data
 	for _, value := range m {
 		file.WriteString(value + "\n")
 	}
 
-
-	// overwrite the file with the contents of the new data
 
 }
 
@@ -139,20 +123,63 @@ func UpdateLog(d *Database, cmd string) {
 
 
 
-func LoadLog(d *Database) {
+func LoadLog(d *Database) string {
 
-	// loads a log file to the address space
+	// loads a log file and runs the cmds in the log file
 
 	// locate the log file first
 
 	file, err := os.Open(d.Name + ".txt")
 	if err != nil {
 		log.Fatal(err)
+		return err.Error()
 	}
 	defer file.Close()
 
 
-	return
+	// iterate over the log file and run the cmds line by line
+	scanner := bufio.NewScanner(file)
+
+
+	for scanner.Scan() {
+		cmd := scanner.Text()
+
+		cmdType := string(cmd[0]) // set, get, etc.
+
+		switch cmdType {
+	    case "init":
+	        // init <name>
+	        msg := handleInit(string(cmd[1]))
+	        return msg
+	    case "echo":
+	    	return cmd[1:]
+	        //return strings.Join(cmd[1:], " ")
+	    case "set":
+	        // handle the set command
+
+	        ret, err := handleSet(string(cmd[1]), string(cmd[2]))
+	        if err != nil {
+	            return err.Error()
+	        }
+	        return ret
+	    case "get":
+	        // handle the get command
+
+	        key := string(cmd[1])
+	        ret, err := handleGet(key)
+	        if err != nil {
+	            return err.Error()
+	        }
+	        return ret
+	    default:
+	        // handle the default case
+	        return "You done fucked up"
+	    }
+	}
+
+
+
+	return ""
 
 
 }

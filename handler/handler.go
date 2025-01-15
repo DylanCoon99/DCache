@@ -42,24 +42,24 @@ Please Enter a Valid Command`
     switch cmd {
     case "init":
         // init <name>
-        msg := handleInit(inputList[1])
+        msg := database.handleInit(inputList[1])
         return msg
     case "echo":
-        database.UpdateLog(database.D, line)
+        //database.UpdateLog(database.D, line)
         return strings.Join(inputList[1:], " ")
     case "set":
         // handle the set command
-        database.UpdateLog(database.D, line)
-        ret, err := handleSet(inputList[1], inputList[2])
+        //database.UpdateLog(database.D, line)
+        ret, err := database.handleSet(inputList[1], inputList[2])
         if err != nil {
             return err.Error()
         }
         return ret
     case "get":
         // handle the get command
-        database.UpdateLog(database.D, line)
+        //database.UpdateLog(database.D, line)
         key := inputList[1]
-        ret, err := handleGet(key)
+        ret, err := database.handleGet(key)
         if err != nil {
             return err.Error()
         }
