@@ -42,7 +42,7 @@ Please Enter a Valid Command`
     switch cmd {
     case "init":
         // init <name>
-        msg := database.handleInit(inputList[1])
+        msg := database.HandleInit(inputList[1])
         return msg
     case "echo":
         //database.UpdateLog(database.D, line)
@@ -50,7 +50,7 @@ Please Enter a Valid Command`
     case "set":
         // handle the set command
         //database.UpdateLog(database.D, line)
-        ret, err := database.handleSet(inputList[1], inputList[2])
+        ret, err := database.HandleSet(inputList[1], inputList[2])
         if err != nil {
             return err.Error()
         }
@@ -59,7 +59,7 @@ Please Enter a Valid Command`
         // handle the get command
         //database.UpdateLog(database.D, line)
         key := inputList[1]
-        ret, err := database.handleGet(key)
+        ret, err := database.HandleGet(key)
         if err != nil {
             return err.Error()
         }

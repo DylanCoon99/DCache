@@ -6,7 +6,7 @@ import (
 )
 
 
-func handleInit(name string) string {
+func HandleInit(name string) string {
 	// returns a message
 	defaultSize := 10
 	d := InitDatabase(name, uint32(defaultSize))
@@ -22,7 +22,7 @@ func handleInit(name string) string {
 
 
 
-func handleSet(key, value string) (string, error) {
+func HandleSet(key, value string) (string, error) {
 
 	// sets the key to the value in memory and returns a message (string)
 	fmt.Println("in the set function")
@@ -46,7 +46,7 @@ func handleSet(key, value string) (string, error) {
 }
 
 
-func handleGet(key string) (string, error) {
+func HandleGet(key string) (string, error) {
 
 	// gets the value in memory for the given key and returns a message (string)
 	fmt.Println(key)

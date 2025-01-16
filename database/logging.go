@@ -149,7 +149,7 @@ func LoadLog(d *Database) string {
 		switch cmdType {
 	    case "init":
 	        // init <name>
-	        msg := handleInit(string(cmd[1]))
+	        msg := HandleInit(string(cmd[1]))
 	        return msg
 	    case "echo":
 	    	return cmd[1:]
@@ -157,7 +157,7 @@ func LoadLog(d *Database) string {
 	    case "set":
 	        // handle the set command
 
-	        ret, err := handleSet(string(cmd[1]), string(cmd[2]))
+	        ret, err := HandleSet(string(cmd[1]), string(cmd[2]))
 	        if err != nil {
 	            return err.Error()
 	        }
@@ -166,7 +166,7 @@ func LoadLog(d *Database) string {
 	        // handle the get command
 
 	        key := string(cmd[1])
-	        ret, err := handleGet(key)
+	        ret, err := HandleGet(key)
 	        if err != nil {
 	            return err.Error()
 	        }
