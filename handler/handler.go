@@ -45,11 +45,11 @@ Please Enter a Valid Command`
         msg := database.HandleInit(inputList[1])
         return msg
     case "echo":
-        //database.UpdateLog(database.D, line)
+        database.UpdateLog(database.D, line)
         return strings.Join(inputList[1:], " ")
     case "set":
         // handle the set command
-        //database.UpdateLog(database.D, line)
+        database.UpdateLog(database.D, line)
         ret, err := database.HandleSet(inputList[1], inputList[2])
         if err != nil {
             return err.Error()
@@ -57,7 +57,7 @@ Please Enter a Valid Command`
         return ret
     case "get":
         // handle the get command
-        //database.UpdateLog(database.D, line)
+        database.UpdateLog(database.D, line)
         key := inputList[1]
         ret, err := database.HandleGet(key)
         if err != nil {

@@ -1,3 +1,7 @@
 set key2 value2
 set key1 value1
 set key4 value4
+get key1
+get key1
+set key1 value1
+echo 1

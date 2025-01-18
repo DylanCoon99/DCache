@@ -129,6 +129,8 @@ func LoadLog(d *Database) string {
 
 	// locate the log file first
 
+	Compact(d.Name + ".txt")
+
 	file, err := os.Open(d.Name + ".txt")
 	if err != nil {
 		log.Fatal(err)
@@ -147,10 +149,6 @@ func LoadLog(d *Database) string {
 		cmdType := string(cmd[0]) // set, get, etc.
 
 		switch cmdType {
-	    case "init":
-	        // init <name>
-	        msg := HandleInit(string(cmd[1]))
-	        return msg
 	    case "echo":
 	    	return cmd[1:]
 	        //return strings.Join(cmd[1:], " ")
