@@ -123,7 +123,7 @@ func UpdateLog(d *Database, cmd string) {
 
 
 
-func LoadLog(d *Database) string {
+func LoadLog(d *Database) {
 
 	// loads a log file and runs the cmds in the log file
 
@@ -134,7 +134,7 @@ func LoadLog(d *Database) string {
 	file, err := os.Open(d.Name + ".txt")
 	if err != nil {
 		log.Fatal(err)
-		return err.Error()
+		//return err.Error()
 	}
 	defer file.Close()
 
@@ -149,35 +149,20 @@ func LoadLog(d *Database) string {
 		cmdType := string(cmd[0]) // set, get, etc.
 
 		switch cmdType {
-	    case "echo":
-	    	return cmd[1:]
-	        //return strings.Join(cmd[1:], " ")
 	    case "set":
 	        // handle the set command
 
-	        ret, err := HandleSet(string(cmd[1]), string(cmd[2]))
-	        if err != nil {
-	            return err.Error()
-	        }
-	        return ret
-	    case "get":
-	        // handle the get command
+	        HandleSet(string(cmd[1]), string(cmd[2]))
 
-	        key := string(cmd[1])
-	        ret, err := HandleGet(key)
-	        if err != nil {
-	            return err.Error()
-	        }
-	        return ret
 	    default:
 	        // handle the default case
-	        return "You done fucked up"
+	        continue
 	    }
 	}
 
 
 
-	return ""
+	return
 
 
 }
